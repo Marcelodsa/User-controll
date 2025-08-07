@@ -33,6 +33,36 @@ app.get('/users', async (req, res) => {
   })
 })
 
+app.put('/users/:id', async (req, res) => {
+  const user = req.body
+  await prisma.user.update({
+    where: { id: req.params.id },
+    data: {
+      name: user.name,
+      email: user.email,
+      age: user.age,
+    }
+  })
+  .then(() => {
+    res.status(201).send('User edited successfully.')
+  })
+  .catch(error => {
+    res.status(500).json({ error: error + ' An error occurred while editing the user.' })
+  })
+})
+
+app.delete('/users/:id', async (req, res) => {
+  await prisma.user.delete({
+    where: { id: req.params.id }
+  })
+  .then(() => {
+    res.status(200).send('User deleted successfully.')
+  })
+  .catch(error => {
+    res.status(500).json({ error: error + ' An error occurred while deleting the user.' })
+  })
+})
+
 app.listen(3000, () => {
   console.log('Server is running on http://localhost:3000')
 })
