@@ -1,18 +1,36 @@
 import express from 'express'
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
 
 const app = express()
 app.use(express.json())
 
-const users = []
-
-app.post('/users', (req, res) => {
+app.post('/users', async (req, res) => {
   const user = req.body
-  users.push(user)
-  res.status(201).send('User created!')
+  await prisma.user.create({
+    data: {
+      name: user.name,
+      email: user.email,
+      age: user.age,
+    }
+  })
+  .then(() => {
+    res.status(201).send('User created successfully.')
+  })
+  .catch(error => {
+    res.status(500).json({ error: error + ' An error occurred while creating the user.' })
+  })
 })
 
-app.get('/users', (req, res) => {
-  res.status(200).json(users)
+app.get('/users', async (req, res) => {
+  await prisma.user.findMany()
+  .then(users => {
+    res.status(200).json(users)
+  })
+  .catch(error => {
+    res.status(500).json({ error: error + 'An error occurred while fetching users.' })
+  })
 })
 
 app.listen(3000, () => {
