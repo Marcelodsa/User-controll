@@ -24,13 +24,30 @@ app.post('/users', async (req, res) => {
 })
 
 app.get('/users', async (req, res) => {
-  await prisma.user.findMany()
-  .then(users => {
+  if (req.query) {
+    await prisma.user.findMany({
+      where: {
+        name: req.query.name,
+        email: req.query.email,
+        age: parseInt(req.query.age)
+      }
+    })
+    .then(users => {
     res.status(200).json(users)
-  })
-  .catch(error => {
-    res.status(500).json({ error: error + 'An error occurred while fetching users.' })
-  })
+    })
+    .catch(error => {
+      res.status(500).json({ error: error + ' An error occurred while fetching users.' })
+    })
+  } else {
+    await prisma.user.findMany()
+    .then(users => {
+      res.status(200).json(users)
+    })
+    .catch(error => {
+      res.status(500).json({ error: error + 'An error occurred while fetching users.' })
+    })
+  }
+
 })
 
 app.put('/users/:id', async (req, res) => {
