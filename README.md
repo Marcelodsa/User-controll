@@ -3,7 +3,7 @@ Study of react with node.js and mongodb
 
 # Run API
 
-To install prima on project
+To install prisma on project
 
 ``npm install prisma --save-dev``
 
