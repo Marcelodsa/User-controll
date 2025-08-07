@@ -8,7 +8,7 @@ const users = []
 app.post('/users', (req, res) => {
   const user = req.body
   users.push(user)
-  res.status(201).send('User created')
+  res.status(201).send('User created!')
 })
 
 app.get('/users', (req, res) => {
