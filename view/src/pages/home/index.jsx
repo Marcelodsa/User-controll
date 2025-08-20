@@ -37,6 +37,16 @@ function Home() {
     });
   }
 
+  async function deleteUser(id) {
+    await api.delete(`/users/${id}`)
+      .then(() => {
+        getUsers();
+      })
+      .catch(error => {
+        console.error("Error deleting user:", error);
+      });
+  }
+
   useEffect(() => {
     getUsers();
   
@@ -62,7 +72,7 @@ function Home() {
             <p>Age: <span>{user.age}</span></p>
             <p>Email: <span>{user.email}</span></p>
           </div>
-          <button>
+          <button onClick={() => deleteUser(user.id)}>
             <img src={Trash} alt="Delete" />
           </button>
         </div>
