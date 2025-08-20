@@ -1,5 +1,6 @@
 # User-controll
 Study of react with node.js and mongodb
+Just a simple website to create, get and delete users
 
 # Run API
 
@@ -20,3 +21,7 @@ To see your collections
 To always rerun the server when save changes
 
 ``node --watch .\server.js``
+
+# Run View
+
+``npm run dev``
